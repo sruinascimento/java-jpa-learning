@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         final String URL = "jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC";
         final String USER = "root";
         final String PASSWD = "81172040*";

@@ -7,8 +7,8 @@ public class QueryDB {
 
         String query = "SELECT id as ID, nome AS Nome, descricao as `Descrição` FROM produto";
         Connection connection = new ConnectionFactory().getConnection();
-        Statement statement = connection.createStatement();
-        boolean result = statement.execute(query);
+        PreparedStatement statement = connection.prepareStatement(query);
+        boolean result = statement.execute();
         System.out.println("Resultado: " + result);
 
         ResultSet resultadoQuery = statement.getResultSet();
