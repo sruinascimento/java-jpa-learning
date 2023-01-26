@@ -9,15 +9,20 @@ public class InsertDB {
             String nome = "Smartphone'";
             String descricao = "Xiaomi Redmi Note 11'";
             String sql = "INSERT INTO produto(nome, descricao) VALUES (?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, nome);
-            preparedStatement.setString(2,descricao);
-            preparedStatement.execute();
-            ResultSet result = preparedStatement.getGeneratedKeys();
-            while(result.next()) {
-                System.out.println("Id: " + result.getInt(1));
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, nome);
+                preparedStatement.setString(2, descricao);
+                preparedStatement.execute();
+                try (ResultSet result = preparedStatement.getGeneratedKeys()) {
+                    while (result.next()) {
+                        System.out.println("Id: " + result.getInt(1));
+                    }
+                } catch (SQLException exception) {
+                    exception.printStackTrace();
+                }
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
-            System.out.println("ok");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -1,15 +1,32 @@
 package br.com.alura.main;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
+    private static final String URL = "jdbc:mysql://localhost:3306/loja_virtual?useTimezone=true&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWD = "81172040*";
 
-    public static Connection getConnection() throws SQLException {
-        final String URL = "jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC";
+    private  DataSource dataSource;
+    public ConnectionFactory() {
+        ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+        comboPooledDataSource.setJdbcUrl(URL);
+        comboPooledDataSource.setUser(USER);
+        comboPooledDataSource.setPassword(PASSWD);
+
+        comboPooledDataSource.setMaxPoolSize(15); //configurar máximo de conexões
+
+        dataSource = comboPooledDataSource;
+    }
+    public Connection getConnection() throws SQLException {
+       /* final String URL = "jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC";
         final String USER = "root";
-        final String PASSWD = "81172040*";
-        return DriverManager.getConnection(URL, USER, PASSWD);
+        final String PASSWD = "81172040*";*/
+//        return DriverManager.getConnection(URL, USER, PASSWD);
+        return this.dataSource.getConnection();
     }
 }

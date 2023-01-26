@@ -4,7 +4,8 @@ import java.sql.*;
 
 public class UpdateDB {
     public static void main(String[] args) {
-        try(Connection connection = ConnectionFactory.getConnection()) {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        try(Connection connection = connectionFactory.getConnection()) {
             String nome = "Smartphone";
             String descricao = "Xiaomi Redmi Note 11";
             int id = 28;
