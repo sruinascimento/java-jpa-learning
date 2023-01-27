@@ -1,22 +1,24 @@
 package br.com.alura.main;
 
-import java.sql.*;
+import br.com.alura.dao.ProductDAO;
+import br.com.alura.model.Product;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class QueryDB {
     public static void main(String[] args) throws SQLException {
 
-        String query = "SELECT id as ID, nome AS Nome, descricao as `Descrição` FROM produto";
-        Connection connection = new ConnectionFactory().getConnection();
-        PreparedStatement statement = connection.prepareStatement(query);
-        boolean result = statement.execute();
-        System.out.println("Resultado: " + result);
+        try (Connection connection = new ConnectionFactory().getConnection()) {
+            var productDao = new ProductDAO(connection);
 
-        ResultSet resultadoQuery = statement.getResultSet();
-        while(resultadoQuery.next()) {
-            System.out.println("Id: " + resultadoQuery.getInt("id"));
-            System.out.println("Nome: " + resultadoQuery.getString("nome"));
-            System.out.println("Descrição: " + resultadoQuery.getString("Descrição"));
+            List<Product> products =
+                    productDao.getProductList();
+
+            products.forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
     }
 }

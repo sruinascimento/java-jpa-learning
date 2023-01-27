@@ -23,10 +23,6 @@ public class ConnectionFactory {
         dataSource = comboPooledDataSource;
     }
     public Connection getConnection() throws SQLException {
-       /* final String URL = "jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC";
-        final String USER = "root";
-        final String PASSWD = "81172040*";*/
-//        return DriverManager.getConnection(URL, USER, PASSWD);
         return this.dataSource.getConnection();
     }
 }
